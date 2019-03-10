@@ -57,16 +57,22 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")] 
-        public IActionResult Put(int id, Author author)
+        public IActionResult Put(int id, AuthorModel author)
         {
             using (EFContext MyDBContext = new EFContext())
             {
-                if (id != author.Id)
+                Author dbAuthors = MyDBContext.Authors.Find(id);
+                if (dbAuthors == null)
                 {
-                    return BadRequest();
+                    return NotFound();
                 }
 
-                MyDBContext.Entry(author).State = EntityState.Modified;
+                dbAuthors.FirstName = author.FirstName;
+                dbAuthors.LastName = author.LastName;
+                dbAuthors.Nationality = author.Nationality;
+                dbAuthors.BirthDeathDate = author.BirthDeathDate;
+                
+                MyDBContext.Entry(dbAuthors).State = EntityState.Modified;
                 MyDBContext.SaveChanges();
                 return NoContent();
             }
