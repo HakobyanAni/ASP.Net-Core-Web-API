@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebAPI.Models;
 
 namespace WebAPI
@@ -42,7 +41,6 @@ namespace WebAPI
             {
                 MyDBContext.Books.Add(Helper.BooksModelToDBBook(book));
                 MyDBContext.SaveChanges();
-
                 return true;
             }
             catch
