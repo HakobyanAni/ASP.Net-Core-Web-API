@@ -16,10 +16,9 @@ namespace WebAPI.Controllers
         [HttpGet]
         public ActionResult<List<AuthorModel>> Get()
         {
-            using (EFContext MyDBContext = new EFContext())
+            using (DbAuthorManager myDbManager = new DbAuthorManager())
             {
-                List<Author> dbAuthors = MyDBContext.Authors.ToList();
-                return Helper.DBAuthorsListToAuthorsModelList(dbAuthors);
+                return myDbManager.GetAllAuthors();
             }
         }
 
@@ -27,71 +26,64 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<AuthorModel> Get(int id)
         {
-            using (EFContext MyDBContext = new EFContext())
+            using (DbAuthorManager myDbManager = new DbAuthorManager())
             {
-                Author dbAuthors = MyDBContext.Authors.Find(id);
-                if (dbAuthors == null)
+                if (myDbManager.GetAnAuthor(id) == null)
                 {
                     return NotFound();
                 }
-                return Helper.DBAuthorsToAuthorsModel(dbAuthors);
+                return myDbManager.GetAnAuthor(id);
             }
         }
 
-        [HttpPost]
+        [HttpPost]  // call by Postman
         public ActionResult<string> Post(AuthorModel author)
         {
-            try
+            using (DbAuthorManager myDbManager = new DbAuthorManager())
             {
-                using (EFContext MyDBContext = new EFContext())
+                bool isAdded = myDbManager.AddAuthor(author);
+                if(isAdded)
                 {
-                    MyDBContext.Authors.Add(Helper.AuthorsModelToDBAuthors(author));
-                    MyDBContext.SaveChanges();
+                    return Ok("Ok");
                 }
-                return Ok("Ok");
-            }
-            catch
-            {
-                return BadRequest();
+                else
+                {
+                    return BadRequest();
+                }
             }
         }
 
-        [HttpPut("{id}")] 
+        [HttpPut("{id}")]  // call by Postman
         public IActionResult Put(int id, AuthorModel author)
         {
-            using (EFContext MyDBContext = new EFContext())
+            using (DbAuthorManager myDbManager = new DbAuthorManager())
             {
-                Author dbAuthors = MyDBContext.Authors.Find(id);
-                if (dbAuthors == null)
+                bool isEdited = myDbManager.EditAuthotr(id, author);
+                if (isEdited)
                 {
+                    return NoContent();
+                }
+                else
+                { 
                     return NotFound();
                 }
-
-                dbAuthors.FirstName = author.FirstName;
-                dbAuthors.LastName = author.LastName;
-                dbAuthors.Nationality = author.Nationality;
-                dbAuthors.BirthDeathDate = author.BirthDeathDate;
-                
-                MyDBContext.Entry(dbAuthors).State = EntityState.Modified;
-                MyDBContext.SaveChanges();
-                return NoContent();
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}")]  // call by Postman
         public ActionResult<Author> Delete(int id)
         {
-            using (EFContext MyDBContext = new EFContext())
+            using (DbAuthorManager myDbManager = new DbAuthorManager())
             {
-                var author = MyDBContext.Authors.Find(id);
-                if (author == null)
+                bool isDeleted = myDbManager.DeleteAuthor(id);
+                if (isDeleted)
+                {
+                    return Ok("Author is deleted.");
+                }
+                else
                 {
                     return NotFound();
                 }
-
-                MyDBContext.Authors.Remove(author);
-                MyDBContext.SaveChanges();
-                return author;
             }
         }
     }

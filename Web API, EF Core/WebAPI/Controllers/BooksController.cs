@@ -16,10 +16,9 @@ namespace WebAPI.Controllers
         [HttpGet]
         public ActionResult<List<BookModel>> Get()
         {
-            using (EFContext MyDBContext = new EFContext())
+            using (DbBookManager myDbManager = new DbBookManager())
             {
-                List<Book> dbBooks = MyDBContext.Books.ToList();
-                return Helper.DBBooksListToBooksModelList(dbBooks);
+                return myDbManager.GetAllBooks();
             }
         }
 
@@ -27,71 +26,67 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<BookModel> Get(int id)
         {
-            using (EFContext MyDBContext = new EFContext())
+            using (DbBookManager myDbManager = new DbBookManager())
             {
-                Book dbBooks = MyDBContext.Books.Find(id);
-                if (dbBooks == null)
+                if(myDbManager.GetABook(id) == null)
                 {
                     return NotFound();
                 }
-                return Helper.DBBookToBooksModel(dbBooks);
+                else
+                {
+                    return myDbManager.GetABook(id);
+                }
             }
         }
 
         [HttpPost] // call by Postman
-        public ActionResult<BookModel> PostBook(BookModel book)
+        public IActionResult PostBook(BookModel book)
         {
-            try
+            using (DbBookManager myDbManager = new DbBookManager())
             {
-                using (EFContext MyDBContext = new EFContext())
+                bool isadded = myDbManager.AddBook(book);
+                if (isadded)
                 {
-                    MyDBContext.Books.Add(Helper.BooksModelToDBBook(book));
-                    MyDBContext.SaveChanges();
+                    return Ok();
                 }
-                return Ok("Ok");
-            }
-            catch
-            {
-                return BadRequest();
+                else
+                {
+                    return BadRequest();
+                }
             }
         }
 
-        [HttpPut("{id}")] 
+        [HttpPut("{id}")] // call by Postman
         public IActionResult Put(int id, BookModel book)
         {
-            using (EFContext MyDBContext = new EFContext())
+            using (DbBookManager myDbManager = new DbBookManager())
             {
-                Book dbBooks = MyDBContext.Books.Find(id);
-                if (dbBooks == null)
+                bool isput = myDbManager.EditBook(id, book);
+                if(isput)
+                {
+                    return NoContent();
+                }
+                else
                 {
                     return NotFound();
                 }
-
-                dbBooks.Title = book.Title;
-                dbBooks.Genre = book.Genre;
-                dbBooks.NumberOfPages = book.NumberOfPages;
-                dbBooks.PublicationDate = book.PublicationDate;
-
-                MyDBContext.Entry(dbBooks).State = EntityState.Modified;
-                MyDBContext.SaveChanges();
-                return NoContent();
             }
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult<Book> Delete(int id)
+        [HttpDelete("{id}")] // call by Postman
+        public IActionResult Delete(int id)
         {
-            using (EFContext MyDBContext = new EFContext())
+            using (DbBookManager myDbManager = new DbBookManager())
             {
-                var book = MyDBContext.Books.Find(id);
-                if (book == null)
+                bool isDeleted = myDbManager.DeleteBook(id);
+                if(isDeleted)
+                {
+                    return Ok("Book is deleted");
+                }
+                else
                 {
                     return NotFound();
                 }
-
-                MyDBContext.Books.Remove(book);
-                MyDBContext.SaveChanges();
-                return book;
             }
         }
     }
