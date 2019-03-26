@@ -26,6 +26,7 @@ namespace Logging_Web_API_.Controllers
         {
             _logger.LogInformation("Nlog is working");
             _logger.LogError(new OutOfMemoryException(), "cool error");
+
             return new string[] { "value1", "value2" };
         }
 
