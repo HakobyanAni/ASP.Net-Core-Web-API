@@ -9,6 +9,9 @@ namespace Presentation_layer_Web_API_.Controllers
     public class CompanyController : ControllerBase
     {
         // GET api/values
+        /// <summary>
+        /// Get all companies
+        /// </summary>
         [HttpGet]
         public IEnumerable<CompanyModel> GetCompanies()
         {
@@ -19,6 +22,9 @@ namespace Presentation_layer_Web_API_.Controllers
         }
 
         // GET api/values/5
+        /// <summary>
+        /// Get a company by Id
+        /// </summary>
         [HttpGet("{id}")]
         public ActionResult<CompanyModel> GetACompany(int id)
         {

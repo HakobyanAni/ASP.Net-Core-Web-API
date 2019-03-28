@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Presentation layer(Web API)</name>
+    </assembly>
+    <members>
+        <member name="M:Presentation_layer_Web_API_.Controllers.CompanyController.GetCompanies">
+            <summary>
+            Get all companies
+            </summary>
+        </member>
+        <member name="M:Presentation_layer_Web_API_.Controllers.CompanyController.GetACompany(System.Int32)">
+            <summary>
+            Get a company by Id
+            </summary>
+        </member>
+        <member name="M:Presentation_layer_Web_API_.Controllers.GithubController.GetGithubProfile">
+            <summary>
+            Get all Github profiles
+            </summary>
+        </member>
+        <member name="M:Presentation_layer_Web_API_.Controllers.GithubController.GetGithubProfile(System.Int32)">
+            <summary>
+            Get a Github profile by Id
+            </summary>
+        </member>
+        <member name="M:Presentation_layer_Web_API_.Controllers.JobController.GetJob">
+            <summary>
+            Get all jobs
+            </summary>
+        </member>
+        <member name="M:Presentation_layer_Web_API_.Controllers.JobController.GetJob(System.Int32)">
+            <summary>
+            Get a job by Id
+            </summary>
+        </member>
+    </members>
+</doc>

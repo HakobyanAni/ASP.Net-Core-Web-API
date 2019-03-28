@@ -9,6 +9,9 @@ namespace Presentation_layer_Web_API_.Controllers
     public class JobController : ControllerBase
     {
         // GET: api/Job
+        /// <summary>
+        /// Get all jobs
+        /// </summary>
         [HttpGet]
         public IEnumerable<JobModel> GetJob()
         {
@@ -19,6 +22,9 @@ namespace Presentation_layer_Web_API_.Controllers
         }
 
         // GET: api/Job/5
+        /// <summary>
+        /// Get a job by Id
+        /// </summary>
         [HttpGet("{id}")]
         public ActionResult<JobModel> GetJob(int id)
         {
