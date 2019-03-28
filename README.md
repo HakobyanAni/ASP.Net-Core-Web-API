@@ -7,4 +7,4 @@ Before we understand what is Web API, let's see what is an <b>API (Application P
 <li> <b>REST API</b> - The actual interface through which clients can work with our API will be implemented through ASP.NET Core. Route configurations are determined by attributes.</li>
 </li><li><b>Business logic (BL)</b> - to encapsulate business logic, we use query processors, only this layer processes business logic. The exception is the simplest validation such as mandatory fields, which will be executed by means of filters in the API.</li>
 <li><b>Data Access Layer (DAL)</b> - To access the data, we use the Unit of Work pattern and, in the implementation, we use the ORM EF Core with code first and migration patterns.</li><li><b>Database</b> - Here we store data and nothing more, no logic.</li></ul>
-<img src="https://user-images.githubusercontent.com/45730967/54310075-f6652b80-45ea-11e9-90f5-b58af0515f2a.png" width="1720px" height="900px" />
+<img src="https://user-images.githubusercontent.com/45730967/54310075-f6652b80-45ea-11e9-90f5-b58af0515f2a.png" width="1720px" height="900px"/>
