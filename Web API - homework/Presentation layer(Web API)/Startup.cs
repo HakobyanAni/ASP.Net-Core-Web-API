@@ -35,6 +35,7 @@ namespace Presentation_layer_Web_API_
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
                 sw.IncludeXmlComments(xmlPath);
             });
         }
